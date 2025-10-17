@@ -1,3 +1,7 @@
+register('o', (orbit, pat) => pat.orbit(orbit))
+samples('http://localhost:5432')
+setCpm(140/4)
+
 setGainCurve(x => Math.pow(x,2))
 
 // setGainCurve(x => x**2)
@@ -116,6 +120,8 @@ register('grab', function (scale, pat) {
     });
 });
 
+setDefault('gain',1)
+
 // multi orbit pan for quad setups etc.
 // ex: s("bd!4").mpan("3:4", slider(0.761))
 register('mpan', (orbits, amount , pat) => {
@@ -130,4 +136,29 @@ register('rlpf', (x,pat) => {return pat.lpf(pure(x).mul(12).pow(4))})
 
 //hpf between 0 and 1
 register('rhpf', (x,pat) => {return pat.hpf(pure(x).mul(12).pow(4))})
+
+register('o', (orbit, pat) => pat.orbit(orbit))
+
+// sets my vocoder CC key to the specified value, probably only useful for me
+register('voc', (key, x) => {
+  let value;
+
+  switch (key) {
+    case 'f#': value = 0; break;
+    case 'g': value = 0.1; break;
+    case 'g#': value = 0.2; break;
+    case 'a': value = 0.3; break;
+    case 'a#': value = 0.4; break;
+    case 'b': value = 0.45; break;
+    case 'c': value = 0.5; break;
+    case 'c#': value = 0.6; break;
+    case 'd': value = 0.7; break;
+    case 'd#': value = 0.8; break;
+    case 'e': value = 0.9; break;
+    case 'f': value = 1; break;
+    default: value = 0.5; // fallback value if key is not recognized
+  }
+
+  return x.ccn(74).ccv(value).midi('tout');
+});
 $: s("sbd").gain(0)
