@@ -137,8 +137,6 @@ register('rlpf', (x,pat) => {return pat.lpf(pure(x).mul(12).pow(4))})
 //hpf between 0 and 1
 register('rhpf', (x,pat) => {return pat.hpf(pure(x).mul(12).pow(4))})
 
-register('o', (orbit, pat) => pat.orbit(orbit))
-
 // sets my vocoder CC key to the specified value, probably only useful for me
 register('voc', (key, x) => {
   let value;
